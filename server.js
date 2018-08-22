@@ -11,19 +11,11 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true });
 
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
-//app.use(bodyParser.json());
 
 app.use(express.static('public'))
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
-
-/*
-// Not found middleware
-app.use((req, res, next) => {
-  return next({status: 404, message: 'not found'})
-});
-*/
 
 // Error Handling middleware
 app.use((err, req, res, next) => {
@@ -44,7 +36,7 @@ app.use((err, req, res, next) => {
     .send(errMessage)
 });
 
-// Initialize exercise database
+// Initialize database
 const Schema = mongoose.Schema;
 const TrackerProfileSchema = new Schema({
   username: {
@@ -134,7 +126,6 @@ app.route('/api/exercise/add').post((req, res) => {
     duration: req.body.duration,
     date: unixDate
   };
-  console.log(queryExercise);
   addExercise(queryExercise, req, res);
 });
 
